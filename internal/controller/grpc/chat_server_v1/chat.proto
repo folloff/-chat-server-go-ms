@@ -1,0 +1,53 @@
+syntax="proto3";
+
+package chat_server_v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/folloff/auth-ms-go/pkg/chat_server_v1;chat_server_v1";
+
+service UserV1 {
+  rpc CreateChatRoom(CreateChatRequest) returns (CreateChatResponse) {}
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse) {}
+  rpc DeleteChatRoom(DeleteChatRequest) returns (DeleteChatResponse) {}
+}
+
+/** PREDEFINED */
+message UUID {
+  string value = 1;
+}
+
+
+/** Chat */
+message Chat {
+  UUID public_id = 1;
+  string room_name = 2;
+  repeated string username = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp updated_at = 5;
+}
+
+/** CREATE */
+message CreateChatRequest {
+  repeated string username= 1;
+}
+
+message CreateChatResponse {
+  UUID public_id = 1;
+}
+
+/** DELETE */
+message DeleteChatRequest {
+  UUID public_id = 1;
+}
+
+message DeleteChatResponse {}
+
+/** Send Message */
+message SendMessageRequest {
+  string from = 1;
+  string message = 2;
+  google.protobuf.Timestamp created_at = 3;
+}
+
+message SendMessageResponse {}
